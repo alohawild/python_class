@@ -29,6 +29,7 @@ __author__ = 'michaelwild'
 import os
 import sys
 import numpy as np
+import math
 
 def howFar(x,y):
     
