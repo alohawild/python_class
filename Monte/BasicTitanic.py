@@ -115,7 +115,7 @@ print("Run with train data using 2/3 as train and 1/3 as test and find the depth
 
 print("Attempting to load train CSV file...")
 
-df_train_start = pd.read_csv('train fixed.csv')
+df_train_start = pd.read_csv('train.csv')
 
 print("...Aligning data....")
 
@@ -167,7 +167,7 @@ df_merge['The Depths'] = df_merge[['The Depths', 'Calc Survived', 'Survived']].a
                                           0 if x['Calc Survived'] == x['Survived'] else 1, axis=1)
 df_merge = df_merge.loc[df_merge['The Depths'] == 1]
 df_merge = df_merge.drop(['indicator_column', 'The Depths'], axis=1)
-df_merge.to_csv('The failed rows.csv', index=False)
+df_merge.to_csv('Thefailedrows.csv', index=False)
 
 failure = len(df_merge.index) / (number_of_rows - cut_off) * 100
 
