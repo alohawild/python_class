@@ -41,7 +41,7 @@ class LoadCSV:
     Fails hard if file not there.
     """
 
-    def __init__(self, fileName='train fixed.csv'):
+    def __init__(self, fileName='train.csv'):
         # Override the start up routine to save the file name and data.
         self.ourList = []
         self.fileName = fileName
@@ -311,7 +311,7 @@ class FinalAnswer:
     Write final answer to file
     """
 
-    def __init__(self, finalList, coefList, fileName='final new answer.csv'):
+    def __init__(self, finalList, coefList, fileName='finalnewanswer.csv'):
 
         try:
             finalFile = open(fileName, encoding='utf-8', mode='w')
@@ -381,9 +381,9 @@ print(program, " Version ", version)
 
 print("Attempting to load CSV files....")
 
-trainData = LoadCSV('train fixed.csv')
+trainData = LoadCSV('train.csv')
 
-testData = LoadCSV('test fixed.csv')
+testData = LoadCSV('test.csv')
 
 print("Data loaded...aligning data")
 
