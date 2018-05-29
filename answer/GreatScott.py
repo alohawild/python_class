@@ -147,7 +147,7 @@ print("Run various models and create files for each. Great Scott! That is a lot 
 
 print("Attempting to load train CSV file...")
 
-df_train_data = pd.read_csv('train fixed.csv')
+df_train_data = pd.read_csv('train.csv')
 
 df_align_train = df_train_data
 
@@ -166,7 +166,7 @@ train_data = df_align_train.values
 
 print("Attempting to load test CSV file...")
 
-df_test_data = pd.read_csv('test fixed.csv')
+df_test_data = pd.read_csv('test.csv')
 
 df_align_test = df_test_data
 
