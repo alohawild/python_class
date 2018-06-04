@@ -20,6 +20,7 @@ conda install scikit-learn
 ```
 At this point the pi_calc.py program should run. 
 ### Install Google Finances
-Use 'pip install googlefinance.client' to install Google Finance
+Use `pip install googlefinance.client` to install Google Finance
 
-
+### Drag contents
+As this is UNIX (Linux) there is not updated path. That means that the files and programs cannot find each other if run in the Monte diretory. You need to drag the `*.py` programs to the top folder and the CSV files too.
