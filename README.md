@@ -24,3 +24,7 @@ Use `pip install googlefinance.client` to install Google Finance
 
 ### Drag contents
 As this is UNIX (Linux) there is not updated path. That means that the files and programs cannot find each other if run in the Monte diretory. You need to drag the `*.py` programs to the top folder and the CSV files too.
+# Example programs
+There are a set of programs that are available to learn Python. Two are easy. Two are amazingly hard. One is given as an example of a possible improvement.
+## Pi
+The first program `py_calc.py` uses the numpy library for random number. It uses a Monte Carlo process to estimate the mathamatical value of pi. The comments explain how the program works. To outline, one can draw a circe in a box and randomly pick points and check if the point is in the circle. The ratio of success and failures is a form of pi. 
