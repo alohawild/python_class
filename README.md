@@ -60,6 +60,6 @@ The code will not run in the directory. You must drag the code and the CSV files
 ## Titanic
 This is a better and more correct program, `Titanic.py`. It uses `Pandas` to change values and is a very good example of using data frame and fixing issues in the data set. Dispair is how bad the error rate is--zero would be perfect.
 ### Exercise
-The code is better but still a linear. It can be easily revised to create a file and improved. This program is a starting point for would be Python machine learning coding. Please enjoy it and maybe even submit to Kaggle! The lamda code is obscure but so Python. Again, enjoy.
+The code is better but still a bit linear (what can I say--I use to code RPG2). It can be easily revised to create a file and improved. This program is a starting point for would be Python machine learning coding. Please enjoy it and maybe even submit to Kaggle! The lamda code is obscure but so Python. Again, enjoy.
 ## Great Scott
 In the answer directory is a huge and crazy program, `GreatScott.py`. It is my solution using all the various machine learning libraries. It does so much I call it "Great Scott! That is a lot of Machine Leaning." Use it to harvest solutions. 
