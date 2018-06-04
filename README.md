@@ -1,6 +1,6 @@
-# python_class
-Python class
-# set_up_AWS
+# Python Class
+This is a small set of programs and set-up for a class on Python.
+# AWS setup
 The class uses a Cloud9 AWS system. Instructions for this is available on AWS websites. Only a basic small system is needed.
 Please see [AWS](https://aws.amazon.com).
 Create new cloud9 system (small!) use initial in name
