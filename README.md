@@ -42,7 +42,7 @@ Run the program. It displays a stock. All in minminal amount of data. The parame
 # Kaggle
 The next examples were used in the practise Kaggle contest for the Titanic. Data science may join contests to earn real money by solving real machibe problems described in Kaggle. This website provides all the tools to run contests. Usually Python is used to solve the problems. A Titanic practice is recommended. A leaderboard is kept running to generate excitement.
 ## Monte
-This program is just nuts. Something written a few years ago before I knew Python that well. It works on a simple idea.
+This program is just nuts: `monte.py'. Something written a few years ago before I knew Python that well. It works on a simple idea.
 Take the dataset from the Kaggle.com site for the practise Titanic contest see [Kaggle Titanic](https://www.kaggle.com/c/titanic) and select a few features and turn them into numbers and impute missing values.
 ### Imagine
 The idea of this program is that there exists a formula like this:
@@ -58,7 +58,8 @@ The code is a bit crazy as I have said. It is a bit like a C programmer using Py
 ### Exercise
 The code will not run in the directory. You must drag the code and the CSV files to the running directory. Run the program and it will create a solution for Kaggle that can be copied and dropped into the Titanic practice contest. It scores a bit better than a coin flip. The magic is the selection of the values. Study this. Switch the sex values and notice that the results are much worse. Zero is very powerful. The selection of replacement values makes this crazy program work. It prints the final results. Ignore `loc` as I never built a value for it. Learn that the selection of values and how I forced them to zero is why this works so well.
 ## Titanic
-This is a better and more correct program. It uses `Pandas` to change values and is a very good example of using data frame and fixing issues in the data set. 
+This is a better and more correct program, `Titanic.py`. It uses `Pandas` to change values and is a very good example of using data frame and fixing issues in the data set. Dispair is how bad the error rate is--zero would be perfect.
 ### Exercise
-The code is better but still a linear. It can be easily revised to create a file and improved. This program is a starting point for would be Python machine learning coding. Please enjoy it and maybe even submit to Kaggle!
-
+The code is better but still a linear. It can be easily revised to create a file and improved. This program is a starting point for would be Python machine learning coding. Please enjoy it and maybe even submit to Kaggle! The lamda code is obscure but so Python. Again, enjoy.
+## Great Scott
+In the answer directory is a huge and crazy program, `GreatScott.py`. It is my solution using all the various machine learning libraries. It does so much I call it "Great Scott! That is a lot of Machine Leaning." Use it to harvest solutions. 
