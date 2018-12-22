@@ -42,7 +42,7 @@ Run the program. It displays a stock. All in minminal amount of data. The parame
 # Kaggle
 The next examples were used in the practise Kaggle contest for the Titanic. Data science may join contests to earn real money by solving real machibe problems described in Kaggle. This website provides all the tools to run contests. Usually Python is used to solve the problems. A Titanic practice is recommended. A leaderboard is kept running to generate excitement.
 ## Monte
-This program is just nuts: `monte.py'. Something written a few years ago before I knew Python that well. It works on a simple idea.
+This program is just nuts: `monte.py`. Something written a few years ago before I knew Python that well. It works on a simple idea.
 Take the dataset from the Kaggle.com site for the practise Titanic contest see [Kaggle Titanic](https://www.kaggle.com/c/titanic) and select a few features and turn them into numbers and impute missing values.
 ### Imagine
 The idea of this program is that there exists a formula like this:
