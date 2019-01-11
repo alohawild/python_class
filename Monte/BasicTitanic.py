@@ -1,27 +1,28 @@
 #!/usr/bin/env python
 """
     Copyright 2018 by Michael Wild (alohawild)
-
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
         http://www.apache.org/licenses/LICENSE-2.0
-
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
 ==============================================================================
 This program reads in the Titanic training. It aligns the data to some basic forms and creates a column
 for each value. It then runs part of the train to train and the rest to evaluate the model.
-
 It runs the train and find the failed entries and moves them into a model
-
-
 """
 __author__ = 'michaelwild'
+__copyright__ = "Copyright (C) 2018 Michael Wild"
+__license__ = "Apache License, Version 2.0"
+__version__ = "1.3.2"
+__credits__ = ["Michael Wild"]
+__maintainer__ = "Michael Wild"
+__email__ = "alohawild@mac.com"
+__status__ = "Initial"
 
 import sys
 import numpy as np
@@ -101,7 +102,7 @@ def movesurvived(df):
 # =============================================================
 
 
-version = "0.01"
+version = "1.01"
 program = "Basic Titanic"
 
 testmode = False
@@ -109,7 +110,8 @@ testmode = False
 # =============================================================
 # Main program begins here
 
-print(program, " Version ", version)
+print("Version ", __version__, " ", __copyright__, " ", __license__)
+print("Running on ", sys.version)
 
 print("Run with train data using 2/3 as train and 1/3 as test and find the depths of failure")
 
@@ -176,3 +178,19 @@ print("Our level if despair is :", failure)
 print("Random Forest results:")
 print(feature_imp)
 print("...")
+
+print("...Get Test data....")
+df_test = pd.read_csv('test.csv')
+
+print("...Aligning data....")
+df_align_test = align.alignnow(df_test)
+print(df_align_test)
+
+test_data = df_align_test.values
+
+prediction = model.predict(test_data[:,1:])
+
+result = np.c_[test_data[:,0].astype(int), prediction.astype(int)]
+df_result = pd.DataFrame(result[:,0:2], columns=['PassengerId', 'Survived'])
+
+df_result.to_csv('Actual Titanic Results.csv', index=False)
