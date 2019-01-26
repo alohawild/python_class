@@ -28,21 +28,31 @@ __author__ = 'michaelwild'
 
 import os
 import sys
-import numpy as np
+#import numpy as np
 import math
+import random
+from time import process_time
 
 def howFar(x,y):
     
     distance = (x ** 2) + (y ** 2) 
     return (distance)**(1/2.0)
 
+def runtime(start):
+
+    return process_time() - start
+
 piGuess = 0.0
-piLoop = 1000000
+piLoop = 10000000
 inCircle = 0
 
+begin_time = process_time()
+
 for i in range(1, piLoop):
-    x = (np.random.uniform()* 2) -1
-    y = (np.random.uniform() * 2) -1
+    #x = (np.random.uniform()* 2) -1
+    #y = (np.random.uniform() * 2) -1
+    x = (random.random()* 2) -1
+    y = (random.random() * 2) -1
     if (howFar(x,y)<1.0) :
         inCircle = inCircle + 1
 piGuess = 4.0* inCircle / piLoop
@@ -50,3 +60,8 @@ piGuess = 4.0* inCircle / piLoop
 piError = math.pi - piGuess
 
 print((piGuess))
+
+finish = runtime(begin_time)
+
+print("Run time:", finish)
+
