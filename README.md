@@ -3,6 +3,8 @@ This is a small set of programs and set-up for a class on Python. Please feel fr
 ## AWS setup
 The class uses a Cloud9 AWS system. Instructions for this is available on AWS websites. Only a basic small system is needed.
 Please see [AWS](https://aws.amazon.com). Please make sure that your root AWS account is not used when running Cloud9! Just setup a new Cloud9 small system. 
+## Use Python3!
+Once you have the system built, use preference option to set Python to Python3. Do not try to use Python2 for these examples.
 ## Update Cloud9
 Once you have the enviroment running, some code is needed. First run `git clone https://github.com/alohawild/python_class/` to get a copy of the programs.
 ### Get Conda
