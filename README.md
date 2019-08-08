@@ -24,6 +24,7 @@ Just run these commands in a new window.
 conda install numpy
 conda install pandas
 conda install scikit-learn
+conda install -c conda-forge matplotlib
 ```
 At this point the pi_calc.py program should run. 
 ### Install Google Finances
