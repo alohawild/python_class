@@ -34,8 +34,6 @@ __author__ = 'michaelwild'
 from mpmath import mp,mpf  # This is the floating point accuracy set to 50 for this example
 mp.dps = 50
 
-import os
-import sys
 import numpy as np
 import math
 
