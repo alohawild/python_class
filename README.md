@@ -28,7 +28,7 @@ conda install -c conda-forge matplotlib
 ```
 At this point the pi_calc.py program should run. 
 ### Install float point addition to allow us to use 50 digit float.
-Use `pip install googlefinance.client` to install Google Finance. Again prompts are all postive.
+Use `pip install mpmath` to install support for arbitrary-precision floating-point arithmetic. This is from the mpmath.org and has been in use for years. 
 
 # Example programs
 There are a set of programs that are available to learn Python. Two are easy. Two are amazingly hard. One is given as an example of a possible improvement.
@@ -37,7 +37,7 @@ The first program `py_calc.py` uses the numpy library for random number. It uses
 ### Exercise
 Run the program and notice its answer. Change the program to run for more less interations. The program will not improve its results much. The conclusion is not that the program is faulty, but that it relies on Python math and that is not that percise. The squareroot is also not needed as the code is for a box of size 1x1.
 
-For you to see more I have built an additional program `py_calc_50.py` 
+For you to see more I have built an additional program `py_calc_50.py` that is much slower and uses huge fifty digit floating point. It is an example of how you can make something more complex, but not make it run better!
 ## Weather
 The second program `NKE.py` uses the Google library to load a Python dataframe with the stock prices of a popular stock. The Google library also brings in the Python library `Pandas`.
 ### Exercise
