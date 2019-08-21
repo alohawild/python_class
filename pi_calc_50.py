@@ -30,10 +30,18 @@ We also added the mpmath library to use 50 digits of floating point accuracy. Th
 
 """
 __author__ = 'michaelwild'
+__copyright__ = "Copyright (C) 2018 Michael Wild"
+__license__ = "Apache License, Version 2.0"
+__version__ = "0.0.1"
+__credits__ = ["Michael Wild"]
+__maintainer__ = "Michael Wild"
+__email__ = "alohawild@mac.com"
+__status__ = "Initial"
 
 from mpmath import mp,mpf  # This is the floating point accuracy set to 50 for this example
 mp.dps = 50
 
+import sys
 import numpy as np
 import math
 
@@ -52,12 +60,21 @@ def runtime(start):
 
     return process_time() - start
 
-print("Pi Example program")
+# =============================================================
 
-piLoop = 1000000
+program = "Pi Calc"
+
+piLoop = 10000
 inCircle = 0
 
 begin_time = process_time()
+
+# =============================================================
+# Main program begins here
+
+print(program)
+print("Version ", __version__, " ", __copyright__, " ", __license__)
+print("Running on ", sys.version)
 
 for i in range(1, piLoop):
     x = mpf(np.random.uniform()* 2) -1
