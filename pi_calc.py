@@ -25,38 +25,55 @@ The ratio of points in the box over the number of randomly selected should be 1/
 
 """
 __author__ = 'michaelwild'
+__copyright__ = "Copyright (C) 2018 Michael Wild"
+__license__ = "Apache License, Version 2.0"
+__version__ = "0.0.3"
+__credits__ = ["Michael Wild"]
+__maintainer__ = "Michael Wild"
+__email__ = "alohawild@mac.com"
+__status__ = "Initial"
 
-from mpmath import mp,mpf
-mp.dps = 50
 
 import os
 import sys
 import numpy as np
 import math
-#import random
+
 from time import process_time
 
 def howFar(x,y):
     
-    distance = mpf((x * x) + (y * y)) 
-    return mpf(np.sqrt(distance))
+    distance = (x * x) + (y * y)
+    return np.sqrt(distance)
 
 def runtime(start):
 
     return process_time() - start
+    
+# =============================================================
+
+program = "Pi Calc"
 
 piLoop = 1000000
 inCircle = 0
 
 begin_time = process_time()
 
+# =============================================================
+# Main program begins here
+
+print(program)
+print("Version ", __version__, " ", __copyright__, " ", __license__)
+print("Running on ", sys.version)
+
+
 for i in range(1, piLoop):
-    x = mpf(np.random.uniform()* 2) -1
-    y = mpf(np.random.uniform() * 2) -1
+    x = (np.random.uniform()* 2) -1
+    y = (np.random.uniform() * 2) -1
 
     if (howFar(x,y)<1.0) :
         inCircle = inCircle + 1
-piGuess = mpf(4.0* mpf(inCircle / piLoop))
+piGuess = 4.0* (inCircle / piLoop)
 
 piError = math.pi - piGuess
 
