@@ -26,42 +26,42 @@ The ratio of points in the box over the number of randomly selected should be 1/
 """
 __author__ = 'michaelwild'
 
+from mpmath import mp,mpf
+mp.dps = 50
+
 import os
 import sys
-#import numpy as np
+import numpy as np
 import math
-import random
+#import random
 from time import process_time
 
 def howFar(x,y):
     
-    distance = (x ** 2) + (y ** 2) 
-    return (distance)**(1/2.0)
+    distance = mpf((x * x) + (y * y)) 
+    return mpf(np.sqrt(distance))
 
 def runtime(start):
 
     return process_time() - start
 
-piGuess = 0.0
-piLoop = 10000000
+piLoop = 1000000
 inCircle = 0
 
 begin_time = process_time()
 
 for i in range(1, piLoop):
-    #x = (np.random.uniform()* 2) -1
-    #y = (np.random.uniform() * 2) -1
-    x = (random.random()* 2) -1
-    y = (random.random() * 2) -1
+    x = mpf(np.random.uniform()* 2) -1
+    y = mpf(np.random.uniform() * 2) -1
+
     if (howFar(x,y)<1.0) :
         inCircle = inCircle + 1
-piGuess = 4.0* inCircle / piLoop
+piGuess = mpf(4.0* mpf(inCircle / piLoop))
 
 piError = math.pi - piGuess
 
-print((piGuess))
+print("Loops:", piLoop)
+print("Calculated value: ",piGuess, "Error: ", piError)
 
 finish = runtime(begin_time)
-
 print("Run time:", finish)
-
