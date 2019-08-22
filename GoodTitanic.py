@@ -42,6 +42,8 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.tree import ExtraTreeClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 def runtime(start):
 
@@ -357,9 +359,15 @@ class GetTitanicData:
                                    min_samples_leaf=3, min_samples_split=2, n_estimators=200
                                    )),
             ("Neural Net", MLPClassifier(solver="lbfgs", alpha=1)),
-            ("AdaBoost",AdaBoostClassifier()),
+            ("AdaBoost",AdaBoostClassifier(n_estimators=200, learning_rate=1.0, algorithm="SAMME.R")),
             ("Naive Bayes", GaussianNB()),
-            ("QDA", QuadraticDiscriminantAnalysis())
+            ("QDA", QuadraticDiscriminantAnalysis()),
+            ("ExtraTrees", ExtraTreeClassifier(criterion="entropy", splitter="best", max_depth=5, 
+                                    min_samples_split=2, min_samples_leaf=3, min_weight_fraction_leaf=0.0, 
+                                    max_features=None, random_state=None, max_leaf_nodes=None, 
+                                    min_impurity_decrease=0.0, min_impurity_split=None, class_weight=None
+                                    )),
+            ("GradientBoost", GradientBoostingClassifier(n_estimators=200))
         ]
         
         for name, model in classifiers:
