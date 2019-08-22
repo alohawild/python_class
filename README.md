@@ -41,7 +41,7 @@ Run the program and notice its answer. Change the program to run for more less i
 
 For you to see more I have built an additional program `py_calc_50.py` that is much slower and uses huge fifty digit floating point. It is an example of how you can make something more complex, but not make it run better! It also let me get out an other library!
 ## Weather
-The second program `NOAA_Zip_US.py` uses a wrapper for a call to NOAA to get the weather for a US zipcode. This is from https://pypi.org/project/noaa-sdk/.
+The second program `NOAA_zip_US.py` uses a wrapper for a call to NOAA to get the weather for a US zipcode. This is from https://pypi.org/project/noaa-sdk/.
 The program has to deal with translating dates with timezone. Notice that there is only UTC+/- and not an actual timezone. 
 From all my reading the suggesting is to get the timezone of the user from a browser and then covert to it. I thus left it alone.
 ### Exercise
