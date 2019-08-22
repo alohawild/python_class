@@ -29,19 +29,24 @@ conda install -c conda-forge matplotlib
 At this point the pi_calc.py program should run. 
 ### Install float point addition to allow us to use 50 digit float.
 Use `pip install mpmath` to install support for arbitrary-precision floating-point arithmetic. This is from the mpmath.org and has been in use for years. 
+### Install NOAA weather Python SDK
+Use `pip install noaa-sdk` to install the NOAA SDK.
 
 # Example programs
 There are a set of programs that are available to learn Python. Two are easy. Two are amazingly hard. One is given as an example of a possible improvement.
 ## Pi
 The first program `py_calc.py` uses the numpy library for random number. It uses a Monte Carlo process to estimate the mathamatical value of pi. The comments explain how the program works. To outline, one can draw a circe in a box and randomly pick points and check if the point is in the circle. The ratio of success and failures is a form of pi. It is interesting that the method produces a weak result. It also shows you how fast your server is!
 ### Exercise
-Run the program and notice its answer. Change the program to run for more less interations. The program will not improve its results much. The conclusion is not that the program is faulty, but that it relies on Python math and that is not that percise. The squareroot is also not needed as the code is for a box of size 1x1.
+Run the program and notice its answer. Change the program to run for more less interations. The program will not improve its results much. The conclusion is not that the program is faulty, but that it relies on Python math and that is not that percise. 
 
-For you to see more I have built an additional program `py_calc_50.py` that is much slower and uses huge fifty digit floating point. It is an example of how you can make something more complex, but not make it run better!
+For you to see more I have built an additional program `py_calc_50.py` that is much slower and uses huge fifty digit floating point. It is an example of how you can make something more complex, but not make it run better! It also let me get out an other library!
 ## Weather
-The second program `NKE.py` uses the Google library to load a Python dataframe with the stock prices of a popular stock. The Google library also brings in the Python library `Pandas`.
+The second program `NOAA_Zip_US.py` uses a wrapper for a call to NOAA to get the weather for a US zipcode. This is from https://pypi.org/project/noaa-sdk/.
+The program has to deal with translating dates with timezone. Notice that there is only UTC+/- and not an actual timezone. 
+From all my reading the suggesting is to get the timezone of the user from a browser and then covert to it. I thus left it alone.
 ### Exercise
-Run the program. It displays a stock. All in minminal amount of data. The parameter is a Python dictionary that is used by the library to make the JSON calls to get the data. Change the stock to get a null value. Notice that you have to guess as the correct values. So far no documentaiton of the values has been discovered.
+Run the program. You can change it to other zip codes and see the results. Notice that there is no secuirty and one is directly hitting NOAA for the weather.
+Putting this in a loop and repeating it over and over will likely get one in some trouble with NOAA.
 # Kaggle
 The next examples were used in the practise Kaggle contest for the Titanic. Data science may join contests to earn real money by solving real machibe problems described in Kaggle. This website provides all the tools to run contests. Usually Python is used to solve the problems. A Titanic practice is recommended. A leaderboard is kept running to generate excitement.
 ## Titanic
