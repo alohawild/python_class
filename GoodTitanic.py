@@ -1,5 +1,5 @@
 """
-    Copyright 2017 by Michael Wild (alohawild)
+    Copyright 2019 by Michael Wild (alohawild)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,13 +17,37 @@ This program reads in the Titanic training and test and makes a prediction and w
 
 
 """
+__author__ = 'michaelwild'
+__copyright__ = "Copyright (C) 2019 Michael Wild"
+__license__ = "Apache License, Version 2.0"
+__version__ = "0.0.1"
+__credits__ = ["Michael Wild"]
+__maintainer__ = "Michael Wild"
+__email__ = "alohawild@mac.com"
+__status__ = "Initial"
+
 import sys
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from time import process_time
 from sklearn.preprocessing import StandardScaler
-from xgboost.sklearn import XGBClassifier
+from sklearn.model_selection import cross_val_score
 
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+
+def runtime(start):
+
+# I use this a lot so I have a routine.
+
+    return process_time() - start
 
 class GetTitanicData:
     """
@@ -32,10 +56,10 @@ class GetTitanicData:
     :return:
     """
 
-    def __init__(self, train_file='train fixed.csv', test_file='test fixed.csv',
+    def __init__(self, train_file='train.csv', test_file='test.csv',
                  error_file='error file.csv'):
         """
-        Read in data as we start up
+        Read in data as we start up and do a initial RamdomForest and save it.
         """
         self.df_train = pd.read_csv(train_file)
         self.df_test = pd.read_csv(test_file)
@@ -46,16 +70,16 @@ class GetTitanicData:
         self.model = RandomForestClassifier(random_state=29,
                                    bootstrap=True, criterion='entropy', max_depth=None,
                                    max_features=20,
-                                   min_samples_leaf=3, min_samples_split=2, n_estimators=500
+                                   min_samples_leaf=3, min_samples_split=2, n_estimators=200
                                    )
 
 
-        df_errors = self.train_data_and_validate(self.df_Titanic, self.model, verbose=True)
+        df_errors, self.failure = self.train_data_and_validate(self.df_Titanic, self.model, verbose=False)
 
         if (error_file != ''):
             df_errors.to_csv(error_file, index=False)
 
-        self.df_result = self.train_run(self.df_Titanic, self.model, verbose=True)
+        self.df_result = self.train_run(self.df_Titanic, self.model, verbose=False)
 
     def align_data(self):
         """
@@ -167,7 +191,6 @@ class GetTitanicData:
         # free fare is set to median
         df['Fare'] = df[['Fare']].apply(lambda x:
                                         df['Fare'].median() if pd.isnull(x['Fare']) or x['Fare'] <= 0.0
-        #                                0.0 if pd.isnull(x['Fare']) or x['Fare']
                                         else x['Fare'], axis=1)
 
         # This seems to be the same thing
@@ -210,15 +233,18 @@ class GetTitanicData:
         #  Data frames are not used by the trees routines
         train_data = df_train_data.values
 
-        model = model.fit(train_data[0:, 2:], train_data[0:, 1])
+        try:
+            model = model.fit(train_data[0:, 2:], train_data[0:, 1])
 
-        feature_imp = pd.DataFrame(data=model.feature_importances_)
+            feature_imp = pd.DataFrame(data=model.feature_importances_)
 
-        feature_imp.columns = ['Value']
-        feature_imp = feature_imp.assign(Feature=df_train_data.columns[2:])
+            feature_imp.columns = ['Value']
+            feature_imp = feature_imp.assign(Feature=df_train_data.columns[2:])
 
-        feature_imp.sort_values(['Value'], ascending=False, inplace=True)
-        feature_imp.reset_index(level=0, inplace=True)
+            feature_imp.sort_values(['Value'], ascending=False, inplace=True)
+            feature_imp.reset_index(level=0, inplace=True)
+        except:
+            feature_imp = ["N/A"]
 
         if verbose:
             print("Features...")
@@ -232,14 +258,7 @@ class GetTitanicData:
 
         result = np.c_[validate_data[:, 0].astype(int), prediction.astype(int)]
         df_result = pd.DataFrame(result[:, 0:2], columns=['PassengerId', 'Calc Survived'])
-
-        proba = model.predict_proba(validate_data[:, 2:])
-
-        result = np.c_[validate_data[:, 0].astype(float), proba.astype(float)]
-        df_proba = pd.DataFrame(result[:, 0:2], columns=['PassengerId', 'Prob'])
-
         df_merge = pd.merge(df_validate_data, df_result, on='PassengerId', how='inner')
-        df_merge = pd.merge(df_merge, df_proba, on='PassengerId', how='inner')
 
         df_merge['The Depths'] = 0
         df_merge['The Depths'] = df_merge[['The Depths', 'Calc Survived', 'Survived']].apply(lambda x:
@@ -255,14 +274,14 @@ class GetTitanicData:
             print("Count of miss:", len(df_merge.index))
             print("...")
 
-        cols = ['PassengerId', 'Prob', 'Calc Survived']
+        cols = ['PassengerId', 'Calc Survived']
         df_final = df_merge[cols]
         df_final = pd.merge(df_final, self.df_train, on='PassengerId', how='inner')
         df_final = df_final.drop(['Test'], axis=1)
 
-        return df_final
+        return df_final, failure
 
-    def train_run(self, df, model, verbose=True):
+    def train_run(self, df, model, verbose=False):
         """
 
         :param df: Titanic prepared data
@@ -314,148 +333,60 @@ class GetTitanicData:
 
         return self.df_Titanic
 
-class TitanicBoost(GetTitanicData):
-    """
-    Titanic data with Boost option and reduced data
-    """
-    def __init__(self, train_file='train fixed.csv', test_file='test fixed.csv',
-                 error_file='boost error file.csv'):
+    def get_class(self):
         """
-        Read in data as we start up
+        Get information on models
         """
-        self.df_train = pd.read_csv(train_file)
-        self.df_test = pd.read_csv(test_file)
+        classifiers = [
+            ("Nearest Neighbors", KNeighborsClassifier(n_neighbors=5, 
+                                    weights="uniform", algorithm="auto", 
+                                    leaf_size=30, p=2, metric="minkowski", 
+                                    metric_params=None, n_jobs=None
+                                    )),
+            ("Linear SVM", SVC(kernel="linear", C=0.025)),
+            ("RBF SVM", SVC(gamma=2, C=1)),
+            ("Gaussian Process",GaussianProcessClassifier(1.0 * RBF(1.0), warm_start=True)),
+            ("Decision Tree", DecisionTreeClassifier(criterion="entropy", splitter="best", 
+                                   max_depth=5, min_samples_split=2, min_samples_leaf=3, 
+                                   min_weight_fraction_leaf=0.0, max_features=None, 
+                                   random_state=None, max_leaf_nodes=None, min_impurity_decrease=0.0, 
+                                   min_impurity_split=None, class_weight=None, presort=False)),
+            ("Random Forest", RandomForestClassifier(random_state=29,
+                                   bootstrap=True, criterion='entropy', max_depth=None,
+                                   max_features=20,
+                                   min_samples_leaf=3, min_samples_split=2, n_estimators=200
+                                   )),
+            ("Neural Net", MLPClassifier(solver="lbfgs", alpha=1)),
+            ("AdaBoost",AdaBoostClassifier()),
+            ("Naive Bayes", GaussianNB()),
+            ("QDA", QuadraticDiscriminantAnalysis())
+        ]
+        
+        for name, model in classifiers:
+            print("Classifier:", name)
+            df_errors, failure = self.train_data_and_validate(self.df_Titanic, model, verbose=False)
+            print("Dispair:", failure)
 
-        self.df_Titanic = self.align_data()
-        self.df_Titanic = self.prepare_data(self.df_Titanic)
-
-        self.model = XGBClassifier(learning_rate=0.01,
-                                    n_estimators=5000,
-                                    max_depth=7,
-                                    min_child_weight=5,
-                                    gamma=0.0,
-                                    subsample=0.8,
-                                    colsample_bytree=0.8,
-                                    reg_alpha=1e-05,
-                                    objective='binary:logistic',
-                                    nthread=4,
-                                    scale_pos_weight=1.0,
-                                    seed=29)
-
-        df_errors = self.train_data_and_validate(self.df_Titanic, self.model, verbose=True)
-
-        if (error_file != ''):
-            df_errors.to_csv(error_file, index=False)
-
-        self.df_result = self.train_run(self.df_Titanic, self.model, verbose=True)
-
-    def prepare_data(self, df):
-        """
-        prepare the data to be used for training and testing
-        :param df: Titanic Data Frame
-        :return:
-        """
-        df['SexValue'] = 0
-        df['SexValue'] = df[['SexValue', 'Sex']].apply(lambda x: 1 if x['Sex'] == 'male' else 0, axis=1)
-
-        df['Title'] = df['Name'].str.split(".").str[0]
-        df['Title'] = df['Title'].str.split(" ").str[-1]
-        df['Title'] = df['Title'].apply(lambda x: self.align_title(x))
-        df = pd.concat([df, pd.get_dummies(df['Title'], prefix='Title')], axis=1)
-
-        df['Ags'] = df[['Ags', 'Title']].apply(lambda x:
-                                                 self.age_force([x['Title']]) if pd.isnull(x['Ags'])
-                                                 else x['Ags'], axis=1)
-        #  Class needs to be broken out
-        df = pd.concat([df, pd.get_dummies(df['Pclass'], prefix='Class')], axis=1)
-
-        # free fare is set to median
-        df['Fare'] = df[['Fare']].apply(lambda x:
-                                        df['Fare'].median() if pd.isnull(x['Fare']) or x['Fare'] <= 0.0
-        #                                0.0 if pd.isnull(x['Fare']) or x['Fare']
-                                        else x['Fare'], axis=1)
-
-        # This seems to be the same thing
-        df['FamilySize'] = df['SibSp'] + df['Parxg']
-
-        # This is what the cool kids do, scale a value
-        sc = StandardScaler()
-        scale_columns = ['Ags', 'Fare', 'FamilySize','SexValue']
-        df_s = sc.fit_transform(df[scale_columns])
-        df_s = pd.DataFrame((df_s), columns=scale_columns, index=df.index.get_values())
-
-        # add the scaled columns back into the dataframe
-        df[scale_columns] = df_s
-
-        df = df.drop(['Name', 'Ticket', 'Cabin', 'Embarked', 'SibSp', 'Parxg', 'Pclass', 'Title', "Sex"], axis=1)
-
-        return df
-
-def to_xml(df, filename=None, mode='w'):
-    def row_to_xml(row):
-        xml = ['<item>']
-        for i, col_name in enumerate(row.index):
-            xml.append('  <field name="{0}">{1}</field>'.format(col_name, row.iloc[i]))
-        xml.append('</item>')
-        return '\n'.join(xml)
-
-    res = '\n'.join(df.apply(row_to_xml, axis=1))
-
-    if filename is None:
-        return res
-    with open(filename, mode) as f:
-        f.write(res)
-
+        return
 # =============================================================
 
-__author__ = 'Michael Wild'
-
-version = "1.01"
 program = "Final Titanic"
+
+begin_time = process_time()
 
 # =============================================================
 # Main program begins here
 
-pd.DataFrame.to_xml = to_xml
-
-print(program, " Version ", version)
+print(program)
+print("Version ", __version__, " ", __copyright__, " ", __license__)
+print("Running on ", sys.version)
+print("Pandas ", pd.__version__ )
 
 the_data = GetTitanicData()
 
-results = the_data.get_results()
+#results = the_data.get_results()
 
-#results.to_csv("Final Titanic data.csv", index=False) #  .77 in Kaggle
-#results.to_xml("Final Titanic data.xml")
-print("Try the boost model")
+the_data.get_class()
 
-df_data = the_data.get_prepared_data()
-#df_data.to_csv("Final prepared Titanic data.csv", index=False)
-df_data.to_xml("Final prepared Titanic data.xml")
-
-df_copy = the_data.get_prepared_data()
-df_copy_train = df_copy.loc[df_copy['Test'] == 0]
-df_copy_train = df_copy_train.drop(['Test'], axis=1)
-df_copy_train.to_csv("Titanic train data.csv", index=False)
-
-df_copy_test = df_copy.loc[df_copy['Test'] == 1]
-df_copy_test = df_copy_test.drop(['Test', 'Survived'], axis=1)
-df_copy_test.to_csv("Titanic test data.csv", index=False)
-
-boost_model = XGBClassifier(learning_rate =0.01,
-                      n_estimators=5000,
-                      max_depth=2,
-                      min_child_weight=5,
-                      gamma=0.0,
-                      subsample=0.8,
-                      colsample_bytree=0.8,
-                      reg_alpha=1e-05,
-                      objective= 'binary:logistic',
-                      nthread=4,
-                      scale_pos_weight=1.0,
-                      seed=29)
-
-the_data.train_data_and_validate(df_data, boost_model)
-
-more_data = TitanicBoost(error_file="boost error file.csv")
-
+print("Run time:", runtime(begin_time))
 print("End of line....")
