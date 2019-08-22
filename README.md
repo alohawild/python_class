@@ -56,8 +56,8 @@ The code is better but still a bit linear (what can I say--I use to code RPG2). 
 #### Issue with Cloud9
 I was having trouble running it from the IDE and so I use a command to run it from a terminal. Remember to save the code first!
 ```
-cd Python_class
-Python3 BasicTitanic.py
+cd python_class
+python3 BasicTitanic.py
 ```
 ## Scripting!
 The true power of Python is now displayed in `GoodTitanic.py`. This is a more complete program for the Kaggle exercise on Titanic. You can see more complex use of data clean-up in the code. I also use classes to build everything like a true modern Python coder (remember I am over 50 and wrote BASIC on a Sinclair and so that is saying a lot!). The program reads the files, applies the alignment to the data, trains, and then predicts. All in the class. 
@@ -65,3 +65,7 @@ The true power of Python is now displayed in `GoodTitanic.py`. This is a more co
 I added an additional method to the class to run every classifier I know about and installed so we could see which one was the best. I can also change the Verbose parm to see all the data as it flows. This is where you see why Python is used for Machine Learning. It can even run different code in a loop. 
 ### Harvest
 The code can easily be harvested and applied to other problems and the loop through all the classifiers used to determine the best choice. A more powerful program, and there are examples out in the Internet for this, could vary all the settings for each classifier and then use the best settings to produce the best results.
+```
+cd python_class
+python3 GoodTitanic.py
+```
