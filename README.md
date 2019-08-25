@@ -69,3 +69,7 @@ The code can easily be harvested and applied to other problems and the loop thro
 cd python_class
 python3 GoodTitanic.py
 ```
+# MicroPython and Express
+The `amazing_fez.py' is for MicroPython based controller and specifically Adafruit Circuit Playground Express. This code is for a silly wearable of a MicroPython that lights up based on sound, uses a SparkFun command controllable display, and a wearable GPS module from Adafruit. I built this for the 2018 Makerfaire in Portland.
+## The code
+The Express has limited memory and I had to remove the comments (!) and most of the tracing prints to serial (!) to keep it running. It fits within the limits of MicroPython and the Express, just.
