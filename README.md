@@ -48,7 +48,7 @@ From all my reading the suggesting is to get the timezone of the user from a bro
 Run the program. You can change it to other zip codes and see the results. Notice that there is no secuirty and one is directly hitting NOAA for the weather.
 Putting this in a loop and repeating it over and over will likely get one in some trouble with NOAA.
 # Kaggle
-The next examples were used in the practise Kaggle contest for the Titanic. Data science may join contests to earn real money by solving real machine leraning problems described in Kaggle. This website provides all the tools to run contests. Usually Python is used to solve the problems. A Titanic practice is recommended. A leaderboard is kept running to generate excitement.
+The next examples were used in the practise Kaggle contest for the Titanic. Data science may join contests to earn real money by solving real machine leraning problems described in Kaggle. This website provides all the tools to run contests. Usually Python is used to solve the problems. The Titanic practice contest is recommended. A leaderboard is kept running to generate excitement.
 ## Titanic
 This is a better and more correct program, `BasicTitanic.py`. It uses `Pandas` to change values and is a very good example of using data frame and fixing issues in the data set. Dispair is how bad the error rate is--zero would be perfect.
 ### Exercise
