@@ -13,14 +13,15 @@
     limitations under the License.
 
 ==============================================================================
-This program reads in the Titanic training and test and makes a prediction and write it out
+This program reads in the Titanic training and then runs various solution to classify
+survival.
 
 
 """
 __author__ = 'michaelwild'
 __copyright__ = "Copyright (C) 2019 Michael Wild"
 __license__ = "Apache License, Version 2.0"
-__version__ = "0.0.1"
+__version__ = "0.0.3"
 __credits__ = ["Michael Wild"]
 __maintainer__ = "Michael Wild"
 __email__ = "alohawild@mac.com"
@@ -44,6 +45,9 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.tree import ExtraTreeClassifier
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import VotingClassifier
+import sklearn as sk
 
 def runtime(start):
 
@@ -367,14 +371,26 @@ class GetTitanicData:
                                     max_features=None, random_state=None, max_leaf_nodes=None, 
                                     min_impurity_decrease=0.0, min_impurity_split=None, class_weight=None
                                     )),
-            ("GradientBoost", GradientBoostingClassifier(n_estimators=200))
+            ("GradientBoost", GradientBoostingClassifier(n_estimators=200)),
+            ("Bagging", BaggingClassifier(n_estimators=50, bootstrap=True))
         ]
         
         for name, model in classifiers:
             print("Classifier:", name)
             df_errors, failure = self.train_data_and_validate(self.df_Titanic, model, verbose=False)
             print("Dispair:", failure)
-
+            
+        print("Voting!")
+        cf1 = AdaBoostClassifier(n_estimators=200, learning_rate=1.0, algorithm="SAMME.R")
+        cf2 = GradientBoostingClassifier(n_estimators=200)
+        cf3 = RandomForestClassifier(random_state=29, bootstrap=True, criterion='entropy', max_depth=None,
+                                     max_features=2, min_samples_leaf=3, min_samples_split=2, n_estimators=200
+                                    )
+        cf = VotingClassifier(estimators=[('Ada', cf1), ('GB', cf2), ('RF', cf3)], voting='soft')
+        df_errors, failure = self.train_data_and_validate(self.df_Titanic, cf, verbose=False)
+        print("Voting Dispair:", failure)
+        
+        
         return
 # =============================================================
 
@@ -389,6 +405,7 @@ print(program)
 print("Version ", __version__, " ", __copyright__, " ", __license__)
 print("Running on ", sys.version)
 print("Pandas ", pd.__version__ )
+print("SKLearn ", sk.__version__)
 
 the_data = GetTitanicData()
 
